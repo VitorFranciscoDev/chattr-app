@@ -16,8 +16,18 @@ class AuthProvider with ChangeNotifier {
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
 
+  void _setInitialized(bool initialized) {
+    _isInitialized = initialized;
+    notifyListeners();
+  }
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+    notifyListeners();
+  }
 
   String? _errorName;
   String? _errorEmail;
@@ -57,8 +67,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> loadUser() async {
-    _isInitialized = false;
-    notifyListeners();
+    _setInitialized(false);
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -66,21 +75,19 @@ class AuthProvider with ChangeNotifier {
 
       if (userData != null) {
         final map = jsonDecode(userData);
-        final temp = UserModel.fromJson(map);
-        _user = temp.toEntity();
+        final model = UserModel.fromJson(map);
+        _user = model.toEntity();
         notifyListeners();
       }
     } catch(e) {
       throw Exception("Error in Load User Provider: $e");
     } finally {
-      _isInitialized = true;
-      notifyListeners();
+      _setInitialized(true);
     }
   }
 
   Future<String?> addUser(User user) async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       // Verifies if User with same Email already exists
@@ -98,14 +105,12 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       return "Unexpected Error.";
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
   Future<String?> deleteUser() async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       // Receives the number of rows affected
@@ -116,14 +121,12 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       return "Unexpected Error.";
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
   Future<String?> updateUser(User? user) async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       // Receives the number of rows affected
@@ -144,14 +147,12 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       return "Unexpected Error.";
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
   Future<String?> doLogin(String email, String password) async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       // Receives the User
@@ -173,15 +174,13 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       return "Unexpected Error.";
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
   Future<void> logout() async {
     _user = null;
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -189,8 +188,7 @@ class AuthProvider with ChangeNotifier {
     } catch(e) {
       throw Exception("Error in Log Out Provider: $e");
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 }
