@@ -1,11 +1,23 @@
+import 'package:chattr_app/domain/usecases/user_usecases.dart';
 import 'package:chattr_app/infrastructure/presentation/auth/auth_state.dart';
 import 'package:chattr_app/infrastructure/presentation/auth/login_screen.dart';
 import 'package:chattr_app/infrastructure/presentation/chat/chat_screen.dart';
+import 'package:chattr_app/infrastructure/repositories/mysql_user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  final userRepository = MySQLUserRepository();
+  final userUseCases = UserUseCases(repository: userRepository);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider(useCases: userUseCases)),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
