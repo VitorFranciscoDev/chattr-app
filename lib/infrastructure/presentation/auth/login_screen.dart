@@ -1,4 +1,5 @@
 import 'package:chattr_app/infrastructure/presentation/auth/auth_state.dart';
+import 'package:chattr_app/infrastructure/presentation/auth/user_register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -145,6 +146,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(child: Divider()),
+                const SizedBox(width: 20),
+                Text("or", style: TextStyle(color: Colors.grey[600])),
+                const SizedBox(width: 20),
+                Expanded(child: Divider()),
+              ],
+            ),
+            const SizedBox(height: 5),
+            TextButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserRegisterScreen())), 
+              child: const Text("Go to Register", style: TextStyle(color: Color(0xFF2E7D32))),
             ),
           ],
         ),
