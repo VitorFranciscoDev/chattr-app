@@ -23,6 +23,30 @@ class UserModel {
     this.lastSeen,
   });
 
+  factory UserModel.fromEntity(User user) {
+    return UserModel(
+      id: user.id,
+      uuid: user.uuid,
+      name: user.name, 
+      email: user.email, 
+      password: user.password,
+      userImg: user.userImg,
+      isOnline: user.isOnline,
+      lastSeen: user.lastSeen,
+    );
+  }
+
+  User toEntity() => User(
+    id: id,
+    uuid: uuid,
+    name: name, 
+    email: email, 
+    password: password,
+    userImg: userImg,
+    isOnline: isOnline,
+    lastSeen: lastSeen,
+  );
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -49,27 +73,9 @@ class UserModel {
     );
   }
 
-  factory UserModel.fromEntity(User user) {
-    return UserModel(
-      id: user.id,
-      uuid: user.uuid,
-      name: user.name, 
-      email: user.email, 
-      password: user.password,
-      userImg: user.userImg,
-      isOnline: user.isOnline,
-      lastSeen: user.lastSeen,
-    );
+  @override
+  String toString() {
+    return "id: $id, uuid: $uuid, name: $name, email: $email, password: $password, userImg: $userImg, isOnline: $isOnline, lastSeen: $lastSeen";
   }
 
-  User toEntity() => User(
-    id: id,
-    uuid: uuid,
-    name: name, 
-    email: email, 
-    password: password,
-    userImg: userImg,
-    isOnline: isOnline,
-    lastSeen: lastSeen,
-  );
 }
