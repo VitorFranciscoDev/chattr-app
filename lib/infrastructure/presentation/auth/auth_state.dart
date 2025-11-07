@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:chattr_app/domain/entities/user.dart';
 import 'package:chattr_app/domain/usecases/user_usecases.dart';
-import 'package:chattr_app/infrastructure/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,8 +74,7 @@ class AuthProvider with ChangeNotifier {
 
       if (userData != null) {
         final map = jsonDecode(userData);
-        final model = UserModel.fromJson(map);
-        _user = model.toEntity();
+        _user = User.fromJson(map);
         notifyListeners();
       }
     } catch(e) {
@@ -137,8 +135,7 @@ class AuthProvider with ChangeNotifier {
         notifyListeners();
 
         final prefs = await SharedPreferences.getInstance();
-        final model = UserModel.fromEntity(user);
-        await prefs.setString('user_data', jsonEncode(model.toJson()));
+        await prefs.setString('user_data', jsonEncode(user.toJson()));
 
         return null;
       }
@@ -162,8 +159,7 @@ class AuthProvider with ChangeNotifier {
         _user = user;
 
         final prefs = await SharedPreferences.getInstance();
-        final model = UserModel.fromEntity(user);
-        await prefs.setString('user_data', jsonEncode(model.toJson()));
+        await prefs.setString('user_data', jsonEncode(user.toJson()));
 
         notifyListeners();
 

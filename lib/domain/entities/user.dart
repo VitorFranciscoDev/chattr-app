@@ -20,4 +20,35 @@ class User {
     this.isOnline,
     this.lastSeen,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'uuid': uuid,
+      'name': name,
+      'email': email,
+      'password': password,
+      'userImg': userImg,
+      'isOnline': isOnline,
+      'lastSeen': lastSeen,
+    };
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      uuid: json['uuid'],
+      name: json['name'], 
+      email: json['email'], 
+      password: json['password'],
+      userImg: json['userImg'],
+      isOnline: json['isOnline'],
+      lastSeen: json['lastSeen'],
+    );
+  }
+
+  @override
+  String toString() {
+    return "id: $id, uuid: $uuid, name: $name, email: $email, password: $password, userImg: $userImg, isOnline: $isOnline, lastSeen: $lastSeen";
+  }
 }

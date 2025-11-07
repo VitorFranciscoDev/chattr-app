@@ -1,5 +1,5 @@
 import 'package:chattr_app/domain/entities/user.dart';
-import 'package:chattr_app/domain/repositories/user_repository.dart';
+import 'package:chattr_app/infrastructure/datastore/interfaces/user_repository.dart';
 
 class UserUseCases {
   UserUseCases({ required this.repository });
